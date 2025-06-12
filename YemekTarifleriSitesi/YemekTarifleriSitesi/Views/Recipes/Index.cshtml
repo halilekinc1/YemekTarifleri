@@ -1,0 +1,20 @@
+@model IEnumerable<YemekTarifleriSitesi.Models.Recipe>
+@{
+    ViewData["Title"] = "Yemek Tarifleri";
+}
+<h2 class="section-title mb-4">Tüm Yemek Tarifleri</h2>
+<div class="row g-4">
+@foreach (var recipe in Model)
+{
+    <div class="col-md-4">
+        <div class="recipe-card h-100">
+            <img src="@(string.IsNullOrEmpty(recipe.ImageUrl) ? "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80" : recipe.ImageUrl)" class="recipe-img" alt="@recipe.Name">
+            <div class="recipe-card-body">
+                <h5 class="recipe-title">@recipe.Name</h5>
+                <p class="recipe-meta">@(string.IsNullOrEmpty(recipe.Ingredients) ? "Malzeme bilgisi yok" : recipe.Ingredients.Substring(0, Math.Min(40, recipe.Ingredients.Length)) + "...")</p>
+                <a href="@Url.Action("Details", "Recipes", new { id = recipe.Id })" class="btn btn-warning w-100 mt-2">Tarife Git</a>
+            </div>
+        </div>
+    </div>
+}
+</div>

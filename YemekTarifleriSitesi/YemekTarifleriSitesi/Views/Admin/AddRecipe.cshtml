@@ -1,0 +1,46 @@
+@model YemekTarifleriSitesi.Models.Recipe
+@{
+    ViewData["Title"] = "Tarif Ekle";
+    var categories = ViewBag.Categories as List<YemekTarifleriSitesi.Models.Category>;
+}
+
+<h2>Tarif Ekle</h2>
+
+<form asp-action="AddRecipe" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Tarif Adı</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Ingredients" class="form-label">Malzemeler</label>
+        <textarea asp-for="Ingredients" class="form-control"></textarea>
+        <span asp-validation-for="Ingredients" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Instructions" class="form-label">Hazırlanış</label>
+        <textarea asp-for="Instructions" class="form-control"></textarea>
+        <span asp-validation-for="Instructions" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Yemek Fotoğrafı</label>
+        <input type="file" name="imageFile" class="form-control" accept="image/*" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Kategori Seç</label>
+        <select name="selectedCategories" class="form-select" multiple required>
+            @if (categories != null)
+            {
+                foreach (var cat in categories)
+                {
+                    <option value="@cat.Id">@cat.Name</option>
+                }
+            }
+        </select>
+        <small class="text-muted">Birden fazla kategori seçmek için Ctrl tuşunu kullanabilirsiniz.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
